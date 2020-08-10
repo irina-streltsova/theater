@@ -1,0 +1,17 @@
+{% extends "theater/layout.html" %}
+{% load static %}
+{% block body %}
+
+    {% for performance in performances %}
+        <article class="media content-section">
+          <div class="media-body">
+            <div class="article-metadata">
+              <small class="mr-2">{{ performance.date }}</small>
+              <small class="text-muted">{{ performance.time }}</small>
+            </div>
+            <h2><a class="article-title" href="{% url 'performance' performance.id %}">{{ performance.title }}</a></h2>
+          </div>
+        </article>
+    {% endfor %}
+
+{% endblock %}

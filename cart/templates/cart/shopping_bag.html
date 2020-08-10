@@ -1,0 +1,61 @@
+{% extends "theater/layout.html" %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+{% block body %}
+
+
+<div class="row justify-content-center">
+    <div class="col-lg-8 text-center">
+        <h3 class="text-center font-weight-bold pb-4 my-0">Корзина</h3>
+    </div>
+</div>
+
+    <table class="cart" >
+        <thead>
+        <tr>
+            <th class="coll_id">ID</th>
+            <th class="coll_title">Спектакль</th>
+            <th class="coll_date">Дата</th>
+            <th class="coll_time">Время</th>
+            <th class="coll_sector">Сектор</th>
+            <th>Ряд</th>
+            <th>Место</th>
+            <th>Remove</th>
+            <th>Цена</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for item in cart %}
+            {% with ticket=item.ticket %}
+                <tr>
+                    <td class="coll_id">{{ ticket.id }}</td>
+                    <td class="coll_title"><a class="card-link font-weight-bold" href="{% url 'performance' ticket.performance.id %}" >{{ ticket.performance.title }}</a></td>
+                    <td class="coll_date">{{ ticket.performance.date }}</td>
+                    <td class="coll_time">{{ ticket.performance.time }}</td>
+                    <td class="coll_sector">{{ ticket.sector.name }}</td>
+                    <td class="num">{{ ticket.row.number }}</td>
+                    <td class="num">{{ ticket.seat.number }}</td>
+                    <td><a href="{% url 'cart_remove' ticket.id %}">Remove</a></td>
+                    <td class="num">{{ item.price }} грн</td>
+                </tr>
+            {% endwith %}
+        {% endfor %}
+        <tr class="total">
+            <td colspan="7"></td>
+            <td>Total</td>
+            <td class="num">{{ cart.get_total_price }} грн</td>
+        </tr>
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <a href="{% url 'order_create' %}" class="btn btn-info" role="button">Оформить заказ</a>
+        </div>
+    </div>
+    <br>
+
+{% endblock %}
+
+

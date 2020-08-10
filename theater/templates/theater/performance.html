@@ -1,0 +1,53 @@
+{% extends "theater/layout.html" %}
+
+{% block body %}
+
+
+    <div class="card mb-3" style="">
+        <div class="row no-gutters">
+            <div class="col-md-4">
+                <img src="{{ performance.image.url }}" class="card-img" alt="Image"/>
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h2 class="card-title">{{ performance.title }}</h2>
+                    <p class="card-text" style="font-size:16px">{{ performance.description }}</p>
+                </div>
+
+                <br>
+                <br>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-5">
+                            {% load static %}
+                            <img class="float-left" src="{% static 'media/calendar.png' %}">
+                            <p class="info float-left offset-1"> <h6><b> {{ performance.date }}, {{ performance.time }}</b></h6>
+                        </div>
+                    </div>
+                </div>
+
+                <br>
+                <br>
+                <br>
+
+                {% if request.user.is_authenticated %}
+                <div class="row justify-content-center">
+                    <a class="btn btn-buy px-8 font-weight-bold text-uppercase" href="{% url 'ticket_selection' performance.id %}">Перейти к выбору билетов</a>
+                </div>
+                {% else %}
+                    <div class="row justify-content-center">
+                        Для покупки билета требуется войти в систему
+                    </div>
+                    <div class="row justify-content-center">
+                        <a class="nav-link font-weight-bold text-uppercase"
+                          href="{% url 'authorization' %}">Войти</a>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}

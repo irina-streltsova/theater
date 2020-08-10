@@ -1,0 +1,107 @@
+{% extends "admin/layout.html" %}
+
+{% block body %}
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h3 class="text-center font-weight-bold pb-4 my-0">Заказы со статусом "{{ status.name }}"</h3>
+        </div>
+    </div>
+
+    <table class="cart" >
+            <thead>
+            <tr>
+                <th class="coll_id">Order ID</th>
+                <th class="coll_title">Username</th>
+                <th class="coll_date">Дата оформления</th>
+                <th class="price">Цена</th>
+                <th class="coll_title">Спектакль</th>
+                <th class="date">Дата</th>
+                <th class="coll_time">Время</th>
+                <th class="coll_sector">Сектор</th>
+                <th>Ряд</th>
+                <th>Место</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for order in orders %}
+                <tr>
+                    <td class="coll_id">{{ order.id }}</td>
+                    <td class="coll_id">{{ order.user.username }}</td>
+                    <td class="coll_date">{{ order.create_date }}</td>
+                    <td class="price">{{ order.total_price }}</td>
+                    <td class="coll_title">
+                        {% for orderht in orderht %}
+                            {% if order.id == orderht.order.id %}
+                            <p>{{ orderht.ticket.performance.title }}</p>
+                            <br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td class="date">
+                        {% for orderht in orderht %}
+                            {% if order.id == orderht.order.id %}
+                                <p>{{ orderht.ticket.performance.date }}</p>
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for orderht in orderht %}
+                            {% if order.id == orderht.order.id %}
+                                <p>{{ orderht.ticket.performance.time }}</p>
+                                <br>
+                            {% endif %}
+                    {% endfor %}
+                    </td>
+                    <td>
+                        {% for orderht in orderht %}
+                            {% if order.id == orderht.order.id %}
+                                <p>{{ orderht.ticket.sector.name }}</p>
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for orderht in orderht %}
+                            {% if order.id == orderht.order.id %}
+                                <p>{{ orderht.ticket.row.number }}</p>
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>
+                        {% for orderht in orderht %}
+                            {% if order.id == orderht.order.id %}
+                                <p>{{ orderht.ticket.seat.number }}</p>
+                                <br>
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    {% if status_id == 1 %}
+                        <td>
+                            <a href="{% url 'order_execute' order.id %}" class="btn btn-info" role="button">В исполнение</a>
+                        </td>
+                    {% elif status_id == 2 %}
+                        <td>
+                            <a href="{% url 'order_complete' order.id %}" class="btn btn-info" role="button">
+                                Завершить</a>
+                            <br>
+                            <br>
+                            <a href="{% url 'order_reject' order.id %}" class="btn btn-info" role="button">Отклонить</a>
+                        </td>
+                    {% elif status_id == 3 %}
+                        <td>
+                            <p>Завершен</p>
+                        </td>
+                    {% elif status_id == 4 %}
+                        <td>
+                            <p>Отклонен</p>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}

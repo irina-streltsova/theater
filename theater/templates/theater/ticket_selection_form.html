@@ -1,0 +1,38 @@
+{% extends "theater/layout.html" %}
+
+{% block body %}
+
+        <form action="{% url 'cart_add' performance.id %}" method="post">
+        {% csrf_token %}
+            <h3>Сектор</h3>
+            <div class="form-group">
+                <select class="form-control" id="selectedSector" name ="selectedSector">
+                    {% for sector in sectors %}
+                        <option value="{{ sector.id }}">{{ sector.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <h3>Ряд</h3>
+            <div class="form-group">
+                <select class="form-control" id="selectedRow" name ="selectedRow">
+                    {% for row in rows %}
+                        <option value="{{ row.id }}">{{ row.id }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <h3>Место</h3>
+            <div class="form-group">
+                <select class="form-control" id="selectedSeat" name ="selectedSeat">
+                    {% for seat in seats %}
+                        <option value="{{ seat.id }}">{{ seat.id }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+                {{ cart_product_form }}
+                {% csrf_token %}
+                <input type="submit" value="Добавить в корзину">
+        </form>
+
+{% endblock %}
